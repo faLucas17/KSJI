@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background: linear-gradient(135deg, #4a6fa5, #2c4a7c);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 10px 10px 0 0;
+        }
+        .content {
+            background: #f9f9f9;
+            padding: 30px;
+            border-radius: 0 0 10px 10px;
+            border: 1px solid #e0e0e0;
+        }
+        .info-box {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .info-item {
+            margin: 10px 0;
+            display: flex;
+        }
+        .info-label {
+            font-weight: bold;
+            width: 150px;
+            color: #555;
+        }
+        .info-value {
+            flex: 1;
+            color: #333;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #666;
+            font-size: 0.9em;
+        }
+        .btn {
+            display: inline-block;
+            background: #4a6fa5;
+            color: white;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 20px 0;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        .btn:hover {
+            background: #2c4a7c;
+        }
+        .important-note {
+            background: #fff8e1;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .message-box {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #4a6fa5;
+            margin: 20px 0;
+            font-style: italic;
+        }
+        .contact-details {
+            background: #eef5ff;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>KSJI - Accusé de Réception</h1>
+        <p>Votre message a bien été reçu</p>
+    </div>
+    
+    <div class="content">
+        <p>Cher(e) <strong>{{ contact_message.name }}</strong>,</p>
+        
+        <p>Nous vous remercions d'avoir contacté le <strong>Cabinet KSJI</strong>. Nous accusons réception de votre message et nous vous répondrons dans les plus brefs délais.</p>
+        
+        <div class="info-box">
+            <h3 style="margin-top: 0; color: #4a6fa5;">📬 Détails de votre message :</h3>
+            
+            <div class="info-item">
+                <div class="info-label">Date d'envoi :</div>
+                <div class="info-value">{{ contact_message.date_sent|date:"d/m/Y à H:i" }}</div>
+            </div>
+            
+            <div class="info-item">
+                <div class="info-label">Sujet :</div>
+                <div class="info-value">{{ contact_message.subject }}</div>
+            </div>
+            
+            {% if contact_message.phone %}
+            <div class="info-item">
+                <div class="info-label">Téléphone :</div>
+                <div class="info-value">{{ contact_message.phone }}</div>
+            </div>
+            {% endif %}
+            
+            <div class="info-item">
+                <div class="info-label">Votre email :</div>
+                <div class="info-value">{{ contact_message.email }}</div>
+            </div>
+        </div>
+        
+        <div class="message-box">
+            <h4 style="margin-top: 0; color: #4a6fa5;">📝 Votre message :</h4>
+            <p>{{ contact_message.message|linebreaks }}</p>
+        </div>
+        
+        <div class="important-note">
+            <h4 style="margin-top: 0;">⏱️ Délai de réponse :</h4>
+            <p>Notre équipe s'engage à vous répondre <strong>sous 24 heures ouvrables</strong> (hors week-ends et jours fériés).</p>
+        </div>
+        
+        <div class="contact-details">
+            <h4 style="margin-top: 0; color: #4a6fa5;">📞 Nos coordonnées :</h4>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                <div style="text-align: center;">
+                    <div style="font-size: 2em; color: #4a6fa5;">📧</div>
+                    <strong>Email</strong>
+                    <p style="margin: 5px 0;"><a href="mailto:ksji.contact@gmail.com">ksji.contact@gmail.com</a></p>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 2em; color: #4a6fa5;">📞</div>
+                    <strong>Téléphone</strong>
+                    <p style="margin: 5px 0;"><a href="tel:+221772000000">+221 77 200 00 00</a></p>
+                </div>
+            </div>
+        </div>
+        
+        
+        <div class="footer">
+            <p><strong>Cabinet KSJI</strong><br>
+            📧 Email : ksji.contact@gmail.com<br>
+            📞 Téléphone : +221 77 200 00 00<br>
+            
+            <p style="font-size: 0.8em; color: #888;">
+                Cet email a été envoyé automatiquement. Merci de ne pas y répondre directement.<br>
+                Pour toute question, contactez-nous à ksji.contact@gmail.com
+            </p>
+        </div>
+    </div>
+</body>
+</html>

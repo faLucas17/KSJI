@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="KSJI - Conseil & Assistance Juridiques Islamiques. Services spécialisés en droit islamique, héritage, médiation et formation.">
+    <meta name="keywords" content="droit islamique, héritage islamique, charia, médiation, formation islamique, Sénégal">
+    
+    <title>{% block title %}KSJI - Conseil & Assistance Juridiques Islamiques{% endblock %}</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/static/images/favicon.ico">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="/static/css/style.css">
+    {% block extra_css %}{% endblock %}
+    
+    <!-- Google Analytics (à ajouter plus tard) -->
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="{% url 'home' %}" class="logo">
+                <h1>KS<span class="logo-accent">J</span>I</h1>
+                <span class="logo-subtitle">Conseil & Assistance Juridiques Islamiques</span>
+            </a>
+            
+            <button class="menu-toggle" aria-label="Toggle menu">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <ul class="nav-menu">
+                <li><a href="{% url 'home' %}" class="nav-link">Accueil</a></li>
+                <li><a href="{% url 'services' %}" class="nav-link">Services</a></li>
+                <li><a href="{% url 'about' %}" class="nav-link">À Propos</a></li>
+                <li><a href="{% url 'blog_list' %}" class="nav-link">Blog</a></li>
+                <li><a href="{% url 'contact' %}" class="nav-link">Contact</a></li>
+                {% if user.is_authenticated %}
+                <li><a href="/admin/" class="nav-link admin-link"><i class="fas fa-cog"></i> Admin</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Messages -->
+    {% if messages %}
+    <div class="messages-container">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+            <button class="close-alert">&times;</button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Main Content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-section">
+                <h3>KSJI</h3>
+                <p>Kébé Services Juridiques Islamiques</p>
+                <p>Conseil, formation, assistance & médiation juridique islamique</p>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Services</h4>
+                <ul>
+                    <li><a href="{% url 'services' %}">Conseil en Droit Successoral</a></li>
+                    <li><a href="{% url 'services' %}">Accompagnement Juridique</a></li>
+                    <li><a href="{% url 'services' %}">Formation et Sensibilisation</a></li>
+                    <li><a href="{% url 'services' %}">Médiation et Résolution de Conflits</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <p><i class="fas fa-envelope"></i> ksji.contact@gmail.com</p>
+                <p><i class="fas fa-phone"></i> +221 77 200 00 00</p>
+                <p><i class="fas fa-map-marker-alt"></i> Sénégal</p>
+                
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Navigation</h4>
+                <ul>
+                    <li><a href="{% url 'home' %}">Accueil</a></li>
+                    <li><a href="{% url 'about' %}">À Propos</a></li>
+                    <li><a href="{% url 'blog_list' %}">Blog</a></li>
+                    <li><a href="{% url 'contact' %}">Contact</a></li>
+                    <li><a href="{% url 'legal' %}">Mentions Légales</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; {% now "Y" %} KSJI - Kébé Services Juridiques Islamiques. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="/static/js/main.js"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

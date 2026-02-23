@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+
+{% block title %}Blog - KSJI{% endblock %}
+
+{% block content %}
+<section class="hero-page">
+    <div class="container">
+        <h1>Blog KSJI</h1>
+        <p>Articles, conseils et éclairages sur le droit islamique</p>
+    </div>
+</section>
+
+<section class="section blog-section">
+    <div class="container">
+        <div class="blog-layout">
+            <div class="blog-main">
+                <!-- Barre de recherche -->
+                <div class="blog-search">
+                    <form method="get" action="{% url 'blog_list' %}">
+                        <div class="search-box">
+                            <input type="text" name="q" placeholder="Rechercher un article..." value="{{ request.GET.q }}">
+                            <button type="submit"><i class="fas fa-search"></i></button>
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- Liste des articles -->
+                {% if articles %}
+                <div class="articles-grid">
+                    {% for article in articles %}
+                    <article class="article-card">
+                        {% if article.thumbnail %}
+                        <div class="article-image" style="background-image: url('{{ article.thumbnail.url }}')"></div>
+                        {% else %}
+                        <div class="article-image default">
+                            <i class="fas fa-newspaper"></i>
+                        </div>
+                        {% endif %}
+                        
+                        <div class="article-content">
+                            <div class="article-meta">
+                                <span class="category">{{ article.category.name|default:"Général" }}</span>
+                                <span class="date">{{ article.published_date|date:"d F Y" }}</span>
+                                <span class="views"><i class="fas fa-eye"></i> {{ article.views }}</span>
+                            </div>
+                            
+                            <h2><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></h2>
+                            <p class="excerpt">{{ article.excerpt }}</p>
+                            
+                            <div class="article-footer">
+                                <a href="{{ article.get_absolute_url }}" class="read-more">Lire l'article →</a>
+                                <span class="author">Par {{ article.author.get_full_name|default:article.author.username }}</span>
+                            </div>
+                        </div>
+                    </article>
+                    {% endfor %}
+                </div>
+                
+                <!-- Pagination -->
+                {% if is_paginated %}
+                <div class="pagination">
+                    {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="page-link">
+                        <i class="fas fa-chevron-left"></i> Précédent
+                    </a>
+                    {% endif %}
+                    
+                    <span class="current-page">
+                        Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}
+                    </span>
+                    
+                    {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="page-link">
+                        Suivant <i class="fas fa-chevron-right"></i>
+                    </a>
+                    {% endif %}
+                </div>
+                {% endif %}
+                
+                {% else %}
+                <div class="no-articles">
+                    <i class="fas fa-newspaper"></i>
+                    <h3>Aucun article trouvé</h3>
+                    <p>{% if request.GET.q %}Aucun article ne correspond à votre recherche.{% else %}Aucun article n'a été publié pour le moment.{% endif %}</p>
+                    <a href="{% url 'blog_list' %}" class="btn btn-primary">Voir tous les articles</a>
+                </div>
+                {% endif %}
+            </div>
+            
+            <!-- Sidebar -->
+            <aside class="blog-sidebar">
+                <!-- Catégories -->
+                <div class="sidebar-widget categories-widget">
+                    <h3>Catégories</h3>
+                    <ul class="categories-list">
+                        <li><a href="{% url 'blog_list' %}">Tous les articles</a></li>
+                        {% for category in categories %}
+                        <li>
+                            <a href="{% url 'blog_category' category.slug %}">{{ category.name }}</a>
+                            <span class="count">({{ category.article_set.count }})</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                
+                <!-- Articles récents -->
+                {% if recent_articles %}
+                <div class="sidebar-widget recent-widget">
+                    <h3>Articles récents</h3>
+                    <ul class="recent-list">
+                        {% for article in recent_articles %}
+                        <li>
+                            <a href="{{ article.get_absolute_url }}">{{ article.title|truncatechars:50 }}</a>
+                            <span class="date">{{ article.published_date|date:"d/m/Y" }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+                
+                <!-- Newsletter -->
+                <div class="sidebar-widget newsletter-widget">
+                    <h3>Newsletter</h3>
+                    <p>Recevez nos derniers articles par email</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Votre email" required>
+                        <button type="submit" class="btn btn-primary">S'abonner</button>
+                    </form>
+                </div>
+            </aside>
+        </div>
+    </div>
+</section>
+{% endblock %}

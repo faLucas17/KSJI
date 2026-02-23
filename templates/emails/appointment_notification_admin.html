@@ -1,0 +1,73 @@
+def form_valid(self, form):
+    # Sauvegarder le rendez-vous
+    self.object = form.save()
+    
+    # Email au client (texte simple)
+    subject_client = f"KSJI - Confirmation de votre demande de rendez-vous"
+    message_client = f"""Bonjour {self.object.client_name},
+
+Nous confirmons la réception de votre demande de rendez-vous pour le {self.object.preferred_date} à {self.object.preferred_time}.
+
+Type : {self.object.get_appointment_type_display()}
+Service : {self.object.get_service_needed_display()}
+Durée : {self.object.duration} minutes
+
+Votre message : {self.object.description}
+
+Nous vous contacterons dans les prochaines 24h pour finaliser les détails.
+
+Cordialement,
+L'équipe KSJI
+Email : ksji.contact@gmail.com
+Téléphone : +221 77 200 00 00
+"""
+    
+    # Email à l'admin (texte simple)
+    subject_admin = f"KSJI - Nouvelle demande de rendez-vous de {self.object.client_name}"
+    message_admin = f"""NOUVELLE DEMANDE DE RENDEZ-VOUS :
+
+👤 Client : {self.object.client_name}
+📧 Email : {self.object.client_email}
+📞 Téléphone : {self.object.client_phone}
+
+📅 Date : {self.object.preferred_date}
+⏰ Heure : {self.object.preferred_time}
+🕐 Durée : {self.object.duration} minutes
+
+🏛️ Type : {self.object.get_appointment_type_display()}
+⚖️ Service : {self.object.get_service_needed_display()}
+
+📝 Description :
+{self.object.description}
+
+---
+⚠️ ACTION REQUISE : Contacter le client pour confirmer le rendez-vous.
+"""
+    
+    try:
+        # Envoyer au client
+        send_mail(
+            subject_client,
+            message_client,
+            settings.DEFAULT_FROM_EMAIL,
+            [self.object.client_email],
+            fail_silently=False,
+        )
+        
+        # Envoyer à l'admin
+        send_mail(
+            subject_admin,
+            message_admin,
+            settings.DEFAULT_FROM_EMAIL,
+            ['fallfatoush17@gmail.com'],
+            fail_silently=False,
+        )
+        
+        self.object.confirmation_sent = True
+        self.object.save()
+        
+    except Exception as e:
+        # Même en cas d'erreur email, on sauvegarde le rendez-vous
+        messages.warning(self.request, f"Rendez-vous enregistré mais erreur d'email: {str(e)}")
+    
+    return super().form_valid(form)

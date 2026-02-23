@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background: linear-gradient(135deg, #4a6fa5, #2c4a7c);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 10px 10px 0 0;
+        }
+        .content {
+            background: #f9f9f9;
+            padding: 30px;
+            border-radius: 0 0 10px 10px;
+            border: 1px solid #e0e0e0;
+        }
+        .info-box {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .info-item {
+            margin: 10px 0;
+            display: flex;
+        }
+        .info-label {
+            font-weight: bold;
+            width: 150px;
+            color: #555;
+        }
+        .info-value {
+            flex: 1;
+            color: #333;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #666;
+            font-size: 0.9em;
+        }
+        .btn {
+            display: inline-block;
+            background: #4a6fa5;
+            color: white;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        .important-note {
+            background: #fff8e1;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>KSJI - Confirmation de Rendez-vous</h1>
+    </div>
+    
+    <div class="content">
+        <p>Cher(e) <strong>{{ appointment.client_name }}</strong>,</p>
+        
+        <p>Nous confirmons la réception de votre demande de rendez-vous pour une consultation juridique.</p>
+        
+        <div class="info-box">
+            <h3 style="margin-top: 0; color: #4a6fa5;">📅 Détails de votre demande :</h3>
+            
+            <div class="info-item">
+                <div class="info-label">Date souhaitée :</div>
+                <div class="info-value">{{ appointment.preferred_date|date:"d/m/Y" }}</div>
+            </div>
+            
+            <div class="info-item">
+                <div class="info-label">Heure souhaitée :</div>
+                <div class="info-value">{{ appointment.preferred_time|time:"H:i" }}</div>
+            </div>
+            
+            <div class="info-item">
+                <div class="info-label">Type de consultation :</div>
+                <div class="info-value">{{ appointment.get_appointment_type_display }}</div>
+            </div>
+            
+            <div class="info-item">
+                <div class="info-label">Service demandé :</div>
+                <div class="info-value">{{ appointment.get_service_needed_display }}</div>
+            </div>
+            
+            <div class="info-item">
+                <div class="info-label">Durée estimée :</div>
+                <div class="info-value">{{ appointment.duration }} minutes</div>
+            </div>
+        </div>
+        
+        <div class="important-note">
+            <h4 style="margin-top: 0;"> Prochaines étapes :</h4>
+            <ol>
+                <li><strong>Notre équipe va analyser votre demande</strong> sous 24 heures ouvrables</li>
+                <li><strong>Nous vous contacterons</strong> pour confirmer la date et l'heure exactes</li>
+                <li><strong>Vous recevrez un lien</strong> pour la consultation en ligne (si applicable)</li>
+            </ol>
+        </div>
+        
+        <p><strong>Votre description :</strong></p>
+        <blockquote style="background: #f5f5f5; padding: 15px; border-left: 3px solid #4a6fa5; margin: 15px 0;">
+            {{ appointment.description|linebreaks }}
+        </blockquote>
+        
+        <div style="text-align: center;">
+            <p>Besoin de modifier votre rendez-vous ?</p>
+            <a href="mailto:ksji.contact@gmail.com?subject=Modification%20de%20rendez-vous%20{{ appointment.id }}" 
+               class="btn">
+                ✏️ Contacter pour modification
+            </a>
+        </div>
+        
+        <div class="footer">
+            <p><strong>Cabinet KSJI</strong><br>
+            📧 Email : ksji.contact@gmail.com<br>
+            📞 Téléphone : +221 77 200 00 00<br>
+            
+            <p style="font-size: 0.8em; color: #888;">
+                Cet email a été envoyé automatiquement. Merci de ne pas y répondre directement.<br>
+                Pour toute question, contactez-nous à ksji.contact@gmail.com
+            </p>
+        </div>
+    </div>
+</body>
+</html>

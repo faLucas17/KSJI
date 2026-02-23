@@ -1,0 +1,530 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Prise de Rendez-vous - KSJI{% endblock %}
+
+{% block content %}
+<section class="hero-page">
+    <div class="container">
+        <h1>Prendre Rendez-vous</h1>
+        <p>Planifiez une consultation avec nos experts juridiques</p>
+    </div>
+</section>
+
+<section class="section appointment-section">
+    <div class="container">
+        <div class="appointment-container">
+            <div class="appointment-steps">
+                <div class="step active">
+                    <span class="step-number">1</span>
+                    <span class="step-text">Informations</span>
+                </div>
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <span class="step-text">Calendrier</span>
+                </div>
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <span class="step-text">Confirmation</span>
+                </div>
+            </div>
+            
+            <div class="appointment-form-container">
+                <h2><i class="fas fa-calendar-check me-2"></i>Demande de Rendez-vous</h2>
+                <p class="lead">Remplissez ce formulaire pour planifier votre consultation</p>
+                
+                {% if messages %}
+                <div class="messages-container">
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                
+                <form method="post" enctype="multipart/form-data" class="appointment-form" id="appointmentForm">
+                    {% csrf_token %}
+                    
+                    <div class="form-section">
+                        <h3><i class="fas fa-user-circle me-2"></i>Vos Coordonnées</h3>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>{{ form.client_name.label }}</label>
+                                    {{ form.client_name }}
+                                    {% if form.client_name.errors %}
+                                    <div class="error-text">{{ form.client_name.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>{{ form.client_email.label }}</label>
+                                    {{ form.client_email }}
+                                    {% if form.client_email.errors %}
+                                    <div class="error-text">{{ form.client_email.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>{{ form.client_phone.label }}</label>
+                            {{ form.client_phone }}
+                            <small class="form-help">Format: +221 77 123 45 67</small>
+                            {% if form.client_phone.errors %}
+                            <div class="error-text">{{ form.client_phone.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3><i class="fas fa-briefcase me-2"></i>Détails de la Consultation</h3>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>{{ form.appointment_type.label }}</label>
+                                    {{ form.appointment_type }}
+                                    {% if form.appointment_type.errors %}
+                                    <div class="error-text">{{ form.appointment_type.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>{{ form.service_needed.label }}</label>
+                                    {{ form.service_needed }}
+                                    {% if form.service_needed.errors %}
+                                    <div class="error-text">{{ form.service_needed.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>{{ form.preferred_date.label }}</label>
+                                    {{ form.preferred_date }}
+                                    <small class="form-help">À partir de demain</small>
+                                    {% if form.preferred_date.errors %}
+                                    <div class="error-text">{{ form.preferred_date.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>{{ form.preferred_time.label }}</label>
+                                    {{ form.preferred_time }}
+                                    <small class="form-help">9h00 - 18h00</small>
+                                    {% if form.preferred_time.errors %}
+                                    <div class="error-text">{{ form.preferred_time.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>{{ form.duration.label }}</label>
+                                    {{ form.duration }}
+                                    {% if form.duration.errors %}
+                                    <div class="error-text">{{ form.duration.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3><i class="fas fa-file-alt me-2"></i>Informations Complémentaires</h3>
+                        <div class="form-group">
+                            <label>{{ form.description.label }}</label>
+                            {{ form.description }}
+                            <small class="form-help">Décrivez votre situation pour mieux préparer la consultation</small>
+                            {% if form.description.errors %}
+                            <div class="error-text">{{ form.description.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>{{ form.documents.label }}</label>
+                            {{ form.documents }}
+                            <small class="form-help">PDF, Word, JPG, PNG (max 10MB)</small>
+                            {% if form.documents.errors %}
+                            <div class="error-text">{{ form.documents.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="form-terms">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="terms" required>
+                            <label class="form-check-label" for="terms">
+                                J'accepte les <a href="{% url 'legal' %}" target="_blank">conditions générales</a> et 
+                                la <a href="{% url 'legal' %}#privacy" target="_blank">politique de confidentialité</a>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="fas fa-calendar-plus me-2"></i> Demander le Rendez-vous
+                        </button>
+                        <p class="form-note">
+                            <i class="fas fa-info-circle me-1"></i> 
+                            Vous recevrez une confirmation par email sous 24h
+                        </p>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="appointment-info">
+                <div class="info-card">
+                    <h4><i class="fas fa-question-circle me-2"></i>Comment ça marche ?</h4>
+                    <ul class="info-list">
+                        <li><i class="fas fa-check-circle text-success me-2"></i>Remplissez le formulaire</li>
+                        <li><i class="fas fa-check-circle text-success me-2"></i>Recevez une confirmation par email</li>
+                        <li><i class="fas fa-check-circle text-success me-2"></i>Nous vous contactons pour finaliser</li>
+                        <li><i class="fas fa-check-circle text-success me-2"></i>Consultation à la date choisie</li>
+                    </ul>
+                </div>
+                
+                <div class="info-card">
+                    <h4><i class="fas fa-clock me-2"></i>Horaires Disponibles</h4>
+                    <ul class="info-list">
+                        <li><strong>Lun - Ven:</strong> 9h00 - 18h00</li>
+                        <li><strong>Samedi:</strong> 9h00 - 13h00</li>
+                        <li><strong>Dimanche:</strong> Fermé</li>
+                    </ul>
+                </div>
+                
+                <div class="info-card">
+                    <h4><i class="fas fa-video me-2"></i>Consultation en Ligne</h4>
+                    <p>Pour les consultations en visio, nous utilisons des plateformes sécurisées :</p>
+                    <div class="platforms">
+                        <span class="platform-badge">Zoom</span>
+                        <span class="platform-badge">Google Meet</span>
+                        <span class="platform-badge">WhatsApp</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.appointment-container {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: 40px;
+    margin-top: 30px;
+}
+
+.appointment-steps {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 40px;
+    padding: 0 20px;
+}
+
+.step {
+    display: flex;
+    align-items: center;
+    margin: 0 20px;
+    color: #ccc;
+}
+
+.step.active {
+    color: #4a6fa5;
+}
+
+.step-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #f0f0f0;
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.step.active .step-number {
+    background: #4a6fa5;
+    color: white;
+}
+
+.step-text {
+    font-weight: 600;
+}
+
+.appointment-form-container {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+}
+
+.form-section {
+    margin-bottom: 30px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid #eee;
+}
+
+.form-section:last-child {
+    border-bottom: none;
+}
+
+.form-section h3 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+    font-size: 1.3rem;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #444;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s;
+}
+
+.form-control:focus {
+    border-color: #4a6fa5;
+    box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.1);
+    outline: none;
+}
+
+select.form-control {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23444' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 16px;
+    padding-right: 40px;
+}
+
+.error-text {
+    color: #dc3545;
+    font-size: 0.85rem;
+    margin-top: 5px;
+}
+
+.form-help {
+    display: block;
+    margin-top: 5px;
+    color: #666;
+    font-size: 0.85rem;
+}
+
+.form-terms {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 30px 0;
+}
+
+.form-check-label {
+    font-size: 0.9rem;
+}
+
+.form-check-label a {
+    color: #4a6fa5;
+    text-decoration: none;
+}
+
+.form-check-label a:hover {
+    text-decoration: underline;
+}
+
+.form-actions {
+    text-align: center;
+}
+
+.btn-lg {
+    padding: 15px 40px;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.form-note {
+    margin-top: 15px;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* Colonne info */
+.appointment-info {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.info-card {
+    background: white;
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    border: 1px solid #eaeaea;
+}
+
+.info-card h4 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+.info-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.info-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.info-list li:last-child {
+    border-bottom: none;
+}
+
+.platforms {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    flex-wrap: wrap;
+}
+
+.platform-badge {
+    background: #eef5ff;
+    color: #4a6fa5;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .appointment-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .appointment-steps {
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .appointment-form-container {
+        padding: 20px;
+    }
+    
+    .row {
+        flex-direction: column;
+    }
+    
+    .col-md-4, .col-md-6 {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Mise à jour dynamique des heures disponibles selon le type
+    const appointmentType = document.getElementById('appointment-type');
+    const timeSelect = document.getElementById('preferred-time');
+    
+    if (appointmentType && timeSelect) {
+        appointmentType.addEventListener('change', function() {
+            // Pour présentiel : pas de consultation après 17h30
+            if (this.value === 'in_person') {
+                Array.from(timeSelect.options).forEach(option => {
+                    const hour = parseInt(option.value.split(':')[0]);
+                    if (hour >= 17) {
+                        option.disabled = true;
+                    }
+                });
+            } else {
+                // En ligne/téléphone : toutes les heures disponibles
+                Array.from(timeSelect.options).forEach(option => {
+                    option.disabled = false;
+                });
+            }
+        });
+    }
+    
+    // Validation du formulaire
+    const form = document.getElementById('appointmentForm');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            const dateInput = document.getElementById('preferred-date');
+            const selectedDate = new Date(dateInput.value);
+            const today = new Date();
+            
+            // Vérifier si c'est samedi
+            if (selectedDate.getDay() === 6) { // Samedi
+                // Samedi : seulement le matin (9h-13h)
+                const selectedTime = document.getElementById('preferred-time').value;
+                const hour = parseInt(selectedTime.split(':')[0]);
+                
+                if (hour >= 13) {
+                    e.preventDefault();
+                    alert("⚠️ Les consultations le samedi ont lieu uniquement le matin (9h-13h).");
+                    return false;
+                }
+            }
+            
+            // Vérifier les CGU
+            const termsCheckbox = document.getElementById('terms');
+            if (!termsCheckbox.checked) {
+                e.preventDefault();
+                alert("⚠️ Vous devez accepter les conditions générales.");
+                return false;
+            }
+            
+            return true;
+        });
+    }
+    
+    // Afficher la date minimum (demain)
+    const dateInput = document.getElementById('preferred-date');
+    if (dateInput) {
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        dateInput.min = tomorrow.toISOString().split('T')[0];
+        
+        // Désactiver les dimanches
+        dateInput.addEventListener('change', function() {
+            const selectedDate = new Date(this.value);
+            if (selectedDate.getDay() === 0) { // Dimanche
+                alert("⚠️ Nous sommes fermés le dimanche. Veuillez choisir une autre date.");
+                this.value = '';
+            }
+        });
+    }
+});
+</script>
+{% endblock %}

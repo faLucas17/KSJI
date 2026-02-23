@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Contact - KSJI{% endblock %}
+
+{% block content %}
+<section class="hero-page">
+    <div class="container">
+        <h1>Contactez-nous</h1>
+        <p>Nous sommes à votre écoute pour répondre à toutes vos questions</p>
+    </div>
+</section>
+
+<section class="section contact-section">
+    <div class="container">
+        <div class="contact-grid">
+            <div class="contact-info">
+                <h2>Informations de Contact</h2>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="contact-details">
+                        <h4>Email</h4>
+                        <p>ksji.contact@gmail.com</p>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <div class="contact-details">
+                        <h4>Téléphone</h4>
+                        <p>+221 77 200 00 00</p>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="contact-details">
+                        <h4>Adresse</h4>
+                        <p>Sénégal</p>
+                        <p>Consultations en ligne et en présentiel</p>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="contact-details">
+                        <h4>Heures d'ouverture</h4>
+                        <p>Lundi - Vendredi : 9h00 - 18h00</p>
+                        <p>Samedi : 9h00 - 13h00</p>
+                    </div>
+                </div>
+                
+                <div class="social-contact">
+                    <h4>Suivez-nous</h4>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="contact-form-container">
+                <h2>Envoyez-nous un message</h2>
+                <p>Remplissez le formulaire ci-dessous et nous vous répondrons dans les plus brefs délais.</p>
+                
+                <form method="post" class="contact-form">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i> Envoyer le message
+                    </button>
+                </form>
+                
+                <div class="form-note">
+                    <p><i class="fas fa-info-circle"></i> Nous répondons généralement dans les 24 heures ouvrables.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section consultation-section">
+    <div class="container">
+        <div class="consultation-cta">
+            <h2>Besoin d'une consultation personnelle ?</h2>
+            <p>Prenez rendez-vous pour une consultation en ligne ou en présentiel avec nos experts.</p>
+            <a href="{% url 'appointment' %}" class="btn btn-primary">
+                <i class="fas fa-calendar-alt"></i> Prendre rendez-vous en ligne
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Pré-remplir le sujet si un service est spécifié dans l'URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const serviceParam = urlParams.get('service');
+    if (serviceParam) {
+        const subjectField = document.querySelector('#id_subject');
+        if (subjectField) {
+            subjectField.value = `Demande d'information: ${serviceParam}`;
+        }
+    }
+});
+</script>
+{% endblock %}

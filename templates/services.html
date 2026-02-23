@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block title %}Nos Services - KSJI{% endblock %}
+
+{% block content %}
+<section class="hero-page">
+    <div class="container">
+        <h1>Tous Nos Services</h1>
+        <p>Des solutions juridiques islamiques complètes et adaptées</p>
+    </div>
+</section>
+
+<section class="section services-detail">
+    <div class="container">
+        <div class="services-list">
+            {% for service in services %}
+            <div class="service-detail-card" id="service-{{ service.id }}">
+                <div class="service-header">
+                    <div class="service-icon-large">
+                        <i class="{{ service.icon_class }}"></i>
+                    </div>
+                    <div>
+                        <h2>{{ service.title }}</h2>
+                        <p class="service-subtitle">{{ service.description }}</p>
+                    </div>
+                </div>
+                <div class="service-body">
+                    <!-- AFFICHEZ LES DÉTAILS SI EXISTENT -->
+                    {% if service.details %}
+                        <div class="service-details">
+                            {{ service.details|linebreaks }}
+                        </div>
+                    {% else %}
+                        <!-- Sinon, affichez le contenu conditionnel existant -->
+                        {% if service.title == "Conseil en Droit Successoral Islamique" %}
+                        <div class="service-features">
+                            <h4>Ce service inclut :</h4>
+                            <ul>
+                                <li>Calcul précis des parts héréditaires selon le Coran</li>
+                                <li>Rédaction des actes de succession</li>
+                                <li>Conseil sur la répartition des biens</li>
+                                <li>Médiation en cas de conflits familiaux</li>
+                                <li>Assistance juridique complète</li>
+                            </ul>
+                        </div>
+                        {% endif %}
+                        
+                        {% if service.title == "Formation et Sensibilisation" %}
+                        <div class="service-features">
+                            <h4>Nos formations :</h4>
+                            <ul>
+                                <li>Formation au droit successoral islamique</li>
+                                <li>Séminaires sur le Fiqh Malikite</li>
+                                <li>Ateliers sur la structuration patrimoniale</li>
+                                <li>Conférences sur le Tassawuf</li>
+                                <li>Cours d'approfondissement du Coran</li>
+                            </ul>
+                        </div>
+                        {% endif %}
+                    {% endif %}
+                </div>
+                <div class="service-footer">
+                    <a href="{% url 'contact' %}?service={{ service.title|urlencode }}" class="btn btn-primary">
+                        <i class="fas fa-calendar-check"></i> Demander un devis
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

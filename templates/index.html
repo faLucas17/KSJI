@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Accueil - KSJI{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <h1 class="hero-title">Conseil & Assistance Juridiques Islamiques</h1>
+            <p class="hero-subtitle">Spécialistes en droit successoral islamique, médiation, formation et consultation religieuse au Sénégal et à l'international.</p>
+            <div class="hero-buttons">
+                <a href="{% url 'contact' %}" class="btn btn-primary">Prendre Rendez-vous</a>
+                <a href="{% url 'services' %}" class="btn btn-secondary">Nos Services</a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <div class="islamic-pattern"></div>
+        </div>
+    </div>
+</section>
+
+<!-- Services Preview -->
+<section class="section services-preview">
+    <div class="container">
+        <h2 class="section-title">Nos Services Principaux</h2>
+        <p class="section-subtitle">Découvrez nos services phares en droit islamique</p>
+        
+        <div class="services-grid">
+            {% for service in featured_services %}
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="{{ service.icon_class }}"></i>
+                </div>
+                <h3>{{ service.title }}</h3>
+                <p>{{ service.description|truncatechars:150 }}</p>
+                <!-- Lien vers la page détaillée du service -->
+                <a href="{% url 'services' %}#service-{{ service.id }}" class="service-link">
+                    Voir les détails →
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center">
+            <a href="{% url 'services' %}" class="btn btn-outline">
+                Voir tous nos services ({{ all_services|length }})
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- About Preview -->
+<section class="section about-preview">
+    <div class="container">
+        <div class="about-content">
+            <div class="about-text">
+                <h2>Expertise en Droit Islamique</h2>
+                <p>KSJI est un cabinet spécialisé dans les services juridiques islamiques, offrant des conseils fiables basés sur le Coran et la Sunna.</p>
+                <p>Notre équipe d'experts, dirigée par le Professeur Cheikh Ahmed Tidiane Kébé, combine savoir traditionnel et approche moderne.</p>
+                <a href="{% url 'about' %}" class="btn btn-primary">Découvrir KSJI</a>
+            </div>
+            <div class="about-image">
+                <div class="pattern-overlay"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials -->
+{% if testimonials %}
+<section class="section testimonials">
+    <div class="container">
+        <h2 class="section-title">Témoignages</h2>
+        <p class="section-subtitle">Ce que nos clients disent de nous</p>
+        
+        <div class="testimonials-slider">
+            {% for testimonial in testimonials %}
+            <div class="testimonial-card">
+                <div class="testimonial-content">
+                    <p>"{{ testimonial.content }}"</p>
+                </div>
+                <div class="testimonial-author">
+                    <strong>{{ testimonial.client_name }}</strong>
+                    {% if testimonial.client_position %}
+                    <span>{{ testimonial.client_position }}</span>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Blog Preview -->
+<section class="section blog-preview">
+    <div class="container">
+        <h2 class="section-title">Derniers Articles</h2>
+        <p class="section-subtitle">Conseils et éclairages sur le droit islamique</p>
+        
+        <div class="blog-grid">
+            <!-- Articles récents seront ajoutés dynamiquement -->
+            <div class="blog-card placeholder">
+                <div class="blog-image"></div>
+                <div class="blog-content">
+                    <h3>Chargement des articles...</h3>
+                    <p>Les derniers articles du blog apparaîtront ici.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center">
+            <a href="{% url 'blog_list' %}" class="btn btn-primary">Voir le Blog</a>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="section cta">
+    <div class="container">
+        <h2>Besoin de conseils juridiques islamiques ?</h2>
+        <p>Contactez-nous pour une consultation personnalisée</p>
+        <a href="{% url 'contact' %}" class="btn btn-light">Contactez-nous</a>
+    </div>
+</section>
+{% endblock %}

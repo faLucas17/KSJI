@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% block title %}À Propos - KSJI{% endblock %}
+
+{% block content %}
+<section class="hero-page">
+    <div class="container">
+        <h1>À Propos de KSJI</h1>
+        <p>Découvrez notre mission, nos valeurs et notre équipe d'experts</p>
+    </div>
+</section>
+
+<section class="section about-section">
+    <div class="container">
+        <div class="about-intro">
+            <h2>Notre Mission</h2>
+            <p>KSJI (Kébé Services Juridiques Islamiques) a pour vocation de fournir des services spécialisés en droit islamique et en pratiques religieuses, tant au Sénégal qu'à l'international.</p>
+            
+            <div class="mission-grid">
+                <div class="mission-card">
+                    <i class="fas fa-balance-scale"></i>
+                    <h3>Expertise</h3>
+                    <p>Conseils juridiques basés sur le Coran et la Sunna</p>
+                </div>
+                <div class="mission-card">
+                    <i class="fas fa-hands-helping"></i>
+                    <h3>Accompagnement</h3>
+                    <p>Support personnalisé pour particuliers et entreprises</p>
+                </div>
+                <div class="mission-card">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h3>Formation</h3>
+                    <p>Sensibilisation et éducation juridique islamique</p>
+                </div>
+                <div class="mission-card">
+                    <i class="fas fa-peace"></i>
+                    <h3>Médiation</h3>
+                    <p>Résolution de conflits dans le respect des valeurs islamiques</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section team-section">
+    <div class="container">
+        <h2 class="section-title">Notre Équipe</h2>
+        
+        <div class="team-grid">
+            {% for member in team_members %}
+            <div class="team-card">
+                {% if member.photo %}
+                <div class="team-photo" style="background-image: url('{{ member.photo.url }}')"></div>
+                {% else %}
+                <div class="team-photo default">
+                    <i class="fas fa-user"></i>
+                </div>
+                {% endif %}
+                <div class="team-info">
+                    <h3>{{ member.name }}</h3>
+                    <p class="position">{{ member.position }}</p>
+                    <p class="bio">{{ member.bio|truncatechars:150 }}</p>
+                    
+                    {% if member.email or member.phone %}
+                    <div class="team-contact">
+                        {% if member.email %}
+                        <a href="mailto:{{ member.email }}"><i class="fas fa-envelope"></i></a>
+                        {% endif %}
+                        {% if member.phone %}
+                        <a href="tel:{{ member.phone }}"><i class="fas fa-phone"></i></a>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% empty %}
+            <div class="no-team">
+                <p>Les informations sur l'équipe seront bientôt disponibles.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="section values-section">
+    <div class="container">
+        <h2 class="section-title">Nos Valeurs</h2>
+        
+        <div class="values-grid">
+            <div class="value-card">
+                <div class="value-icon">
+                    <i class="fas fa-book-quran"></i>
+                </div>
+                <h3>Conformité Islamique</h3>
+                <p>Tous nos conseils et services sont strictement conformes aux enseignements du Coran et de la Sunna.</p>
+            </div>
+            
+            <div class="value-card">
+                <div class="value-icon">
+                    <i class="fas fa-handshake"></i>
+                </div>
+                <h3>Confidentialité</h3>
+                <p>Nous garantissons la confidentialité totale de toutes vos informations et discussions.</p>
+            </div>
+            
+            <div class="value-card">
+                <div class="value-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <h3>Excellence</h3>
+                <p>Nous nous engageons à fournir un service de la plus haute qualité à tous nos clients.</p>
+            </div>
+            
+            <div class="value-card">
+                <div class="value-icon">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <h3>Bienveillance</h3>
+                <p>Nous traitons chaque client avec respect, compassion et compréhension.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
