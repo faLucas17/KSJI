@@ -940,6 +940,7 @@ a:hover {
     .nav-menu.active {
         right: 0 ;
         left: auto ;
+        z-index: 9999 ;
     }
 
     .nav-link {
