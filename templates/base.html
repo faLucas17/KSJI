@@ -11,8 +11,9 @@
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="/static/images/favicon.ico">
     
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Fonts link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" Remplacez ou ajoutez après Montserrat -->
+    <link href="https://fonts.googleapis.com/css2?family=Berkshire+Swash&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Berkshire+Swash&family=Merriweather:wght@300;400;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- CSS -->
@@ -35,16 +36,18 @@
             </button>
             
             <ul class="nav-menu">
-                <li><a href="{% url 'home' %}" class="nav-link">Accueil</a></li>
-                <li><a href="{% url 'services' %}" class="nav-link">Services</a></li>
-                <li><a href="{% url 'about' %}" class="nav-link">À Propos</a></li>
-                <li><a href="{% url 'blog_list' %}" class="nav-link">Blog</a></li>
-                <li><a href="{% url 'contact' %}" class="nav-link">Contact</a></li>
-                {% if user.is_authenticated %}
-                <li><a href="/admin/" class="nav-link admin-link"><i class="fas fa-cog"></i> Admin</a></li>
-                {% endif %}
-            </ul>
+    <li><a href="{% url 'home' %}" class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}"><i class="fas fa-home"></i> Accueil</a></li>
+    <li><a href="{% url 'services' %}" class="nav-link {% if request.resolver_match.url_name == 'services' %}active{% endif %}"><i class="fas fa-balance-scale"></i> Services</a></li>
+    <li><a href="{% url 'about' %}" class="nav-link {% if request.resolver_match.url_name == 'about' %}active{% endif %}"><i class="fas fa-mosque"></i> À Propos</a></li>
+    <li><a href="{% url 'blog_list' %}" class="nav-link {% if request.resolver_match.url_name == 'blog_list' %}active{% endif %}"><i class="fas fa-book-open"></i> Blog</a></li>
+    <li><a href="{% url 'contact' %}" class="nav-link {% if request.resolver_match.url_name == 'contact' %}active{% endif %}"><i class="fas fa-envelope"></i> Contact</a></li>
+    {% if user.is_authenticated %}
+    <li><a href="/admin/" class="nav-link"><i class="fas fa-cog"></i> Admin</a></li>
+    {% endif %}
+</ul>
         </div>
+        <!-- Overlay pour fermer le menu en cliquant dehors -->
+        <div class="nav-overlay"></div>
     </nav>
 
     <!-- Messages -->

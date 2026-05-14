@@ -148,17 +148,20 @@ if not DEBUG:
     SECURE_HSTS_PRELOAD = True
 
 # WhiteNoise configuration
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+if DEBUG:
+    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+else:
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 SECURE_SSL_REDIRECT = False
 SESSION_COOKIE_SECURE = False
 CSRF_COOKIE_SECURE = False
 
-# Email configuration - MODE CONSOLE (temporaire)
+# Email configuration
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'fallfatoush17@gmail.com'
-EMAIL_HOST_PASSWORD = 'seyp fkxm rzaf gahx'
-DEFAULT_FROM_EMAIL = 'ksji.contact@gmail.com'
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', 'contactksji@gmail.com')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
+DEFAULT_FROM_EMAIL = os.getenv('EMAIL_HOST_USER', 'contactksji@gmail.com')

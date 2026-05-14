@@ -81,7 +81,7 @@ Votre message :
 Notre équipe prendra contact avec vous dans les plus brefs délais (généralement sous 24h).
 
 Pour rappel, nos coordonnées :
-📧 Email : ksji.contact@gmail.com
+📧 Email : contactksji@gmail.com
 📞 Téléphone : +221 77 200 00 00
 
 Cordialement,
@@ -97,7 +97,7 @@ Avocate - Cabinet KSJI
                     subject_to_you,
                     message_to_you,
                     settings.DEFAULT_FROM_EMAIL,
-                    ['fallfatoush17@gmail.com'],  # TON EMAIL
+                    ['contactksji@gmail.com'],  # TON EMAIL
                     fail_silently=False,
                 )
                 print("Email to admin sent")  # DEBUG
@@ -205,7 +205,7 @@ Téléphone : +221 77 200 00 00
                 subject_admin,
                 message_admin,
                 settings.DEFAULT_FROM_EMAIL,
-                ['fallfatoush17@gmail.com'],
+                ['contactksji@gmail.com'],
                 fail_silently=False,
             )
             

@@ -1,27 +1,56 @@
 // Navigation mobile
 document.addEventListener('DOMContentLoaded', function() {
-    // Menu toggle
     const menuToggle = document.querySelector('.menu-toggle');
-    const navMenu = document.querySelector('.nav-menu');
-    
-    if (menuToggle) {
-        menuToggle.addEventListener('click', function() {
-            navMenu.classList.toggle('active');
-            menuToggle.innerHTML = navMenu.classList.contains('active') 
-                ? '<i class="fas fa-times"></i>' 
-                : '<i class="fas fa-bars"></i>';
-        });
-    }
-    
-    // Fermer le menu en cliquant sur un lien
-    const navLinks = document.querySelectorAll('.nav-link');
-    navLinks.forEach(link => {
-        link.addEventListener('click', function() {
-            navMenu.classList.remove('active');
-            menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
-        });
+const navMenu = document.querySelector('.nav-menu');
+const navOverlay = document.querySelector('.nav-overlay');
+
+if (menuToggle) {
+    menuToggle.addEventListener('click', function() {
+        navMenu.classList.toggle('active');
+        navOverlay.classList.toggle('active');
+        menuToggle.innerHTML = navMenu.classList.contains('active')
+            ? '<i class="fas fa-times"></i>'
+            : '<i class="fas fa-bars"></i>';
     });
+}
+
+// Fermer en cliquant sur l'overlay
+if (navOverlay) {
+    navOverlay.addEventListener('click', function() {
+        navMenu.classList.remove('active');
+        navOverlay.classList.remove('active');
+        menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+    });
+}
+
+// Fermer le menu en cliquant sur un lien
+const navLinks = document.querySelectorAll('.nav-link');
+navLinks.forEach(link => {
+    link.addEventListener('click', function() {
+        navMenu.classList.remove('active');
+        navOverlay.classList.remove('active');
+        menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+    });
+});
     
+// Fermer en cliquant n'importe où sur la page
+document.addEventListener('click', function(e) {
+    if (navMenu && navMenu.classList.contains('active')) {
+        if (!navMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+            navMenu.classList.remove('active');
+            navOverlay.classList.remove('active');
+            menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+        }
+    }
+});
+
+// Onglet actif selon la page courante
+const currentPath = window.location.pathname;
+document.querySelectorAll('.nav-link').forEach(link => {
+    if (link.getAttribute('href') === currentPath) {
+        link.classList.add('active');
+    }
+});
     // Fermer les messages d'alerte
     const closeButtons = document.querySelectorAll('.close-alert');
     closeButtons.forEach(button => {

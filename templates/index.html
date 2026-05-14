@@ -5,7 +5,13 @@
 
 {% block content %}
 <!-- Hero Section -->
-<section class="hero">
+ <section class="hero" style="
+    background-image: url('{% static 'images/fond_ecran.png' %}');
+    background-size: 100% auto;
+    background-position: center top;
+    background-repeat: no-repeat;
+">
+    <div class="hero-overlay"></div>
     <div class="container">
         <div class="hero-content">
             <h1 class="hero-title">Conseil & Assistance Juridiques Islamiques</h1>
@@ -14,9 +20,6 @@
                 <a href="{% url 'contact' %}" class="btn btn-primary">Prendre Rendez-vous</a>
                 <a href="{% url 'services' %}" class="btn btn-secondary">Nos Services</a>
             </div>
-        </div>
-        <div class="hero-image">
-            <div class="islamic-pattern"></div>
         </div>
     </div>
 </section>
