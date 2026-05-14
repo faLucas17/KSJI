@@ -1,103 +1,80 @@
-// Navigation mobile
 document.addEventListener('DOMContentLoaded', function() {
     const menuToggle = document.querySelector('.menu-toggle');
-const navMenu = document.querySelector('.nav-menu');
-const navOverlay = document.querySelector('.nav-overlay');
+    const navMenu = document.querySelector('.nav-menu');
+    const navOverlay = document.querySelector('.nav-overlay');
 
-if (menuToggle) {
-    menuToggle.addEventListener('click', function() {
-        navMenu.classList.toggle('active');
-        navOverlay.classList.toggle('active');
-        menuToggle.innerHTML = navMenu.classList.contains('active')
-            ? '<i class="fas fa-times"></i>'
-            : '<i class="fas fa-bars"></i>';
-    });
-}
+    function closeMenu() {
+        if (navMenu) navMenu.classList.remove('active');
+        if (navOverlay) navOverlay.classList.remove('active');
+        if (menuToggle) menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+    }
 
-// Fermer en cliquant sur l'overlay
-if (navOverlay) {
-    navOverlay.addEventListener('click', function() {
-        navMenu.classList.remove('active');
-        navOverlay.classList.remove('active');
-        menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
-    });
-}
+    if (menuToggle) {
+        menuToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            navMenu.classList.toggle('active');
+            if (navOverlay) navOverlay.classList.toggle('active');
+            menuToggle.innerHTML = navMenu.classList.contains('active')
+                ? '<i class="fas fa-times"></i>'
+                : '<i class="fas fa-bars"></i>';
+        });
+    }
 
-// Fermer le menu en cliquant sur un lien
-const navLinks = document.querySelectorAll('.nav-link');
-navLinks.forEach(link => {
-    link.addEventListener('click', function() {
-        navMenu.classList.remove('active');
-        navOverlay.classList.remove('active');
-        menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+    if (navOverlay) {
+        navOverlay.addEventListener('click', closeMenu);
+    }
+
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', closeMenu);
     });
-});
-    
-// Fermer en cliquant n'importe où sur la page
-document.addEventListener('click', function(e) {
-    if (navMenu && navMenu.classList.contains('active')) {
-        if (!navMenu.contains(e.target) && !menuToggle.contains(e.target)) {
-            navMenu.classList.remove('active');
-            navOverlay.classList.remove('active');
-            menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+
+    document.addEventListener('click', function(e) {
+        if (navMenu && navMenu.classList.contains('active')) {
+            if (!navMenu.contains(e.target) && menuToggle && !menuToggle.contains(e.target)) {
+                closeMenu();
+            }
         }
-    }
-});
+    });
 
-// Onglet actif selon la page courante
-const currentPath = window.location.pathname;
-document.querySelectorAll('.nav-link').forEach(link => {
-    if (link.getAttribute('href') === currentPath) {
-        link.classList.add('active');
-    }
-});
-    // Fermer les messages d'alerte
-    const closeButtons = document.querySelectorAll('.close-alert');
-    closeButtons.forEach(button => {
+    const currentPath = window.location.pathname;
+    document.querySelectorAll('.nav-link').forEach(link => {
+        if (link.getAttribute('href') === currentPath) {
+            link.classList.add('active');
+        }
+    });
+
+    document.querySelectorAll('.close-alert').forEach(button => {
         button.addEventListener('click', function() {
             this.parentElement.style.display = 'none';
         });
     });
-    
-    // Auto-hide messages after 5 seconds
+
     setTimeout(() => {
-        const alerts = document.querySelectorAll('.alert');
-        alerts.forEach(alert => {
+        document.querySelectorAll('.alert').forEach(alert => {
             alert.style.opacity = '0';
-            setTimeout(() => {
-                alert.style.display = 'none';
-            }, 300);
+            setTimeout(() => alert.style.display = 'none', 300);
         });
     }, 5000);
-    
-    // Smooth scroll pour les ancres
+
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             const href = this.getAttribute('href');
-            
             if (href === '#') return;
-            
             if (href.startsWith('#')) {
                 e.preventDefault();
                 const target = document.querySelector(href);
-                
                 if (target) {
-                    window.scrollTo({
-                        top: target.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
+                    window.scrollTo({ top: target.offsetTop - 80, behavior: 'smooth' });
                 }
             }
         });
     });
-    
-    // Form validation enhancement
+
     const contactForm = document.querySelector('.contact-form');
     if (contactForm) {
         contactForm.addEventListener('submit', function(e) {
             const requiredFields = this.querySelectorAll('[required]');
             let isValid = true;
-            
             requiredFields.forEach(field => {
                 if (!field.value.trim()) {
                     isValid = false;
@@ -106,32 +83,26 @@ document.querySelectorAll('.nav-link').forEach(link => {
                     field.classList.remove('error');
                 }
             });
-            
             if (!isValid) {
                 e.preventDefault();
                 alert('Veuillez remplir tous les champs obligatoires.');
             }
         });
     }
-    
-    // Initialize testimonials slider
+
     const testimonials = document.querySelector('.testimonials-slider');
     if (testimonials && testimonials.children.length > 1) {
         let currentTestimonial = 0;
         const testimonialCount = testimonials.children.length;
-        
         function showTestimonial(index) {
-            testimonials.children.forEach((child, i) => {
+            Array.from(testimonials.children).forEach((child, i) => {
                 child.style.display = i === index ? 'block' : 'none';
             });
         }
-        
-        // Auto-rotate testimonials
         setInterval(() => {
             currentTestimonial = (currentTestimonial + 1) % testimonialCount;
             showTestimonial(currentTestimonial);
         }, 5000);
-        
         showTestimonial(0);
     }
 });
